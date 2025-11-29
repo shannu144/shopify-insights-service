@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "prisma generate && remix vite:build",
+    "build": "npx prisma generate && remix vite:build",
     "dev": "remix vite:dev",
     "start": "remix-serve ./build/server/index.js",
     "typecheck": "tsc",
