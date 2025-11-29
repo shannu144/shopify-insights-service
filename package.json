@@ -1,0 +1,38 @@
+{
+  "name": "xeno-fte",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "prisma generate && remix vite:build",
+    "dev": "remix vite:dev",
+    "start": "remix-serve ./build/server/index.js",
+    "typecheck": "tsc",
+    "db:push": "prisma db push",
+    "db:studio": "prisma studio",
+    "postinstall": "prisma generate"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@remix-run/dev": "^2.17.2",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "prisma": "^7.0.1",
+    "typescript": "^5.9.3",
+    "vite": "^6.4.1",
+    "vite-tsconfig-paths": "^5.1.4"
+  },
+  "dependencies": {
+    "@prisma/client": "^7.0.1",
+    "@remix-run/node": "^2.17.2",
+    "@remix-run/react": "^2.17.2",
+    "@remix-run/serve": "^2.17.2",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "recharts": "^3.5.1"
+  }
+}

@@ -1,0 +1,38 @@
+# Ignore dependencies
+node_modules/
+
+# Ignore build output
+/build
+/.cache
+/public/build
+
+# Ignore environment variables
+.env
+.env.local
+.env.production
+
+# Ignore database files
+*.db
+*.db-journal
+dev.db
+
+# Ignore Prisma migrations (using db push for now)
+prisma/migrations/
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Ignore logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ignore Vercel
+.vercel

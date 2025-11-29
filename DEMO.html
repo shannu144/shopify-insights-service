@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xeno Insights - Demo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="bg-gray-100">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="w-64 bg-white shadow-md">
+            <div class="p-6">
+                <h1 class="text-2xl font-bold text-blue-600">Xeno Insights</h1>
+            </div>
+            <nav class="mt-6">
+                <a href="#overview" onclick="showPage('overview')"
+                    class="nav-link block px-6 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 bg-blue-50 text-blue-600 border-r-4 border-blue-600">
+                    Overview
+                </a>
+                <a href="#orders" onclick="showPage('orders')"
+                    class="nav-link block px-6 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                    Orders
+                </a>
+                <a href="#customers" onclick="showPage('customers')"
+                    class="nav-link block px-6 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600">
+                    Customers
+                </a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 overflow-auto">
+            <header class="bg-white shadow-sm p-4 flex justify-between items-center">
+                <h2 class="text-xl font-semibold text-gray-800" id="page-title">Overview</h2>
+                <div class="text-sm text-gray-500">Tenant: Demo Store</div>
+            </header>
+            <main class="p-6">
+                <!-- Overview Page -->
+                <div id="overview-page" class="page-content">
+                    <div class="space-y-4">
+                        <!-- Stats Cards -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div
+                                class="bg-white p-5 rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
+                                <h3 class="text-gray-500 text-sm font-medium">Total Revenue</h3>
+                                <p class="text-3xl font-bold text-blue-600 mt-2">$154,300.50</p>
+                                <p class="text-xs text-green-600 mt-1">↑ 12% from last month</p>
+                            </div>
+                            <div
+                                class="bg-white p-5 rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
+                                <h3 class="text-gray-500 text-sm font-medium">Total Orders</h3>
+                                <p class="text-3xl font-bold text-blue-600 mt-2">3,400</p>
+                                <p class="text-xs text-green-600 mt-1">↑ 8% from last month</p>
+                            </div>
+                            <div
+                                class="bg-white p-5 rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
+                                <h3 class="text-gray-500 text-sm font-medium">Total Customers</h3>
+                                <p class="text-3xl font-bold text-blue-600 mt-2">1,250</p>
+                                <p class="text-xs text-green-600 mt-1">↑ 5% from last month</p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            <!-- Orders Chart -->
+                            <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-3">Orders Trend</h3>
+                                <div style="height: 240px;">
+                                    <canvas id="ordersChart"></canvas>
+                                </div>
+                            </div>
+
+                            <!-- Top Customers -->
+                            <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-3">Top Customers</h3>
+                                <div class="overflow-x-auto">
+                                    <table class="min-w-full divide-y divide-gray-200">
+                                        <thead>
+                                            <tr>
+                                                <th
+                                                    class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    Name</th>
+                                                <th
+                                                    class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                    Spent</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-gray-200">
+                                            <tr class="hover:bg-gray-50">
+                                                <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-900">
+                                                    <div class="font-medium">Alice Smith</div>
+                                                    <div class="text-xs text-gray-500">alice@example.com</div>
+                                                </td>
+                                                <td
+                                                    class="px-3 py-2 whitespace-nowrap text-sm text-gray-900 font-semibold">
+                                                    $5,400.00</td>
+                                            </tr>
+                                            <tr class="hover:bg-gray-50">
+                                                <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-900">
+                                                    <div class="font-medium">Bob Jones</div>
+                                                    <div class="text-xs text-gray-500">bob@example.com</div>
+                                                </td>
+                                                <td
+                                                    class="px-3 py-2 whitespace-nowrap text-sm text-gray-900 font-semibold">
+                                                    $4,300.50</td>
+                                            </tr>
+                                            <tr class="hover:bg-gray-50">
+                                                <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-900">
+                                                    <div class="font-medium">Charlie Brown</div>
+                                                    <div class="text-xs text-gray-500">charlie@example.com</div>
+                                                </td>
+                                                <td
+                                                    class="px-3 py-2 whitespace-nowrap text-sm text-gray-900 font-semibold">
+                                                    $3,200.00</td>
+                                            </tr>
+                                            <tr class="hover:bg-gray-50">
+                                                <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-900">
+                                                    <div class="font-medium">Diana Prince</div>
+                                                    <div class="text-xs text-gray-500">diana@example.com</div>
+                                                </td>
+                                                <td
+                                                    class="px-3 py-2 whitespace-nowrap text-sm text-gray-900 font-semibold">
+                                                    $2,800.75</td>
+                                            </tr>
+                                            <tr class="hover:bg-gray-50">
+                                                <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-900">
+                                                    <div class="font-medium">Evan Wright</div>
+                                                    <div class="text-xs text-gray-500">evan@example.com</div>
+                                                </td>
+                                                <td
+                                                    class="px-3 py-2 whitespace-nowrap text-sm text-gray-900 font-semibold">
+                                                    $2,100.25</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Orders Page -->
+                <div id="orders-page" class="page-content hidden">
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                        <h2 class="text-lg font-semibold text-gray-800 mb-4">Orders</h2>
+
+                        <div class="flex gap-4 mb-6 items-end">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Start Date</label>
+                                <input type="date"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border p-2">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">End Date</label>
+                                <input type="date"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm border p-2">
+                            </div>
+                            <button
+                                class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 text-sm">Filter</button>
+                            <button
+                                class="bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 text-sm">Clear</button>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead>
+                                    <tr>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Order #</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Date</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Customer</th>
+                                        <th
+                                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                            #1001
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">11/7/2023</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Alice Smith</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">USD
+                                            150.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                            #1002
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">11/7/2023</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Bob Jones</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">USD
+                                            85.50</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                            #1003
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">11/6/2023</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Charlie Brown
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">USD
+                                            200.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                            #1004
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">11/6/2023</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Diana Prince</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">USD
+                                            45.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                            #1005
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">11/5/2023</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Evan Wright</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">USD
+                                            120.00</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Customers Page -->
+                <div id="customers-page" class="page-content hidden">
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                        <h2 class="text-lg font-semibold text-gray-800 mb-4">Customers</h2>
+                        <p class="text-gray-600">Customer management features would be implemented here.</p>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Chart initialization
+        const ctx = document.getElementById('ordersChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Nov 1', 'Nov 2', 'Nov 3', 'Nov 4', 'Nov 5', 'Nov 6', 'Nov 7'],
+                datasets: [{
+                    label: 'Orders',
+                    data: [45, 52, 38, 65, 48, 59, 62],
+                    borderColor: 'rgb(59, 130, 246)',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 4,
+                    pointHoverRadius: 6,
+                    pointBackgroundColor: 'rgb(59, 130, 246)',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 15
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        padding: 12,
+                        titleFont: { size: 14 },
+                        bodyFont: { size: 13 }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)'
+                        },
+                        ticks: {
+                            padding: 8
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            padding: 8
+                        }
+                    }
+                }
+            }
+        });
+
+        // Page navigation
+        function showPage(pageName) {
+            // Hide all pages
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.classList.add('hidden');
+            });
+
+            // Show selected page
+            document.getElementById(pageName + '-page').classList.remove('hidden');
+
+            // Update title
+            document.getElementById('page-title').textContent = pageName.charAt(0).toUpperCase() + pageName.slice(1);
+
+            // Update nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('bg-blue-50', 'text-blue-600', 'border-r-4', 'border-blue-600');
+            });
+            event.target.classList.add('bg-blue-50', 'text-blue-600', 'border-r-4', 'border-blue-600');
+        }
+    </script>
+</body>
+
+</html>

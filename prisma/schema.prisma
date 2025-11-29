@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Tenant {
+  id          String   @id @default(uuid())
+  name        String
+  shopDomain  String   @unique
+  accessToken String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  products  Product[]
+  customers Customer[]
+  orders    Order[]
+}
+
+model Product {
+  id        String   @id @default(uuid())
+  shopifyId String
+  title     String
+  price     Float
+  tenantId  String
+  tenant    Tenant   @relation(fields: [tenantId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([shopifyId, tenantId])
+}
+
+model Customer {
+  id         String   @id @default(uuid())
+  shopifyId  String
+  firstName  String?
+  lastName   String?
+  email      String?
+  totalSpent Float    @default(0)
+  tenantId   String
+  tenant     Tenant   @relation(fields: [tenantId], references: [id])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  orders     Order[]
+
+  @@unique([shopifyId, tenantId])
+}
+
+model Order {
+  id          String    @id @default(uuid())
+  shopifyId   String
+  orderNumber Int
+  totalPrice  Float
+  currency    String
+  processedAt DateTime
+  tenantId    String
+  tenant      Tenant    @relation(fields: [tenantId], references: [id])
+  customerId  String?
+  customer    Customer? @relation(fields: [customerId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@unique([shopifyId, tenantId])
+}
+
+// User model for authentication
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String   // Hashed password
+  tenantId  String?  // Optional: link user to tenant
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
